@@ -83,14 +83,39 @@
             overflow: hidden; /* Ensure text doesn't overflow */
             white-space: nowrap; /* Prevent text from wrapping */
         }
+        #info {
+            display: flex; /* Use flexbox for horizontal alignment */
+            align-items: center; /* Vertically align items in the center */
+            margin: 20px; /* Optional: add margin around the container */
+        }
 
+        .color-box {
+            width: 15px; /* Adjust size as needed */
+            height: 15px; /* Adjust size as needed */
+            background-color: rgb(0, 32, 96);
+            border-radius: 50%; /* Makes the box round */
+            border: 1px solid #000; /* Optional: border to make the box more visible */
+            margin-right: 10px; /* Space between the color box and text */
+        }
 
-        @media (max-width: 450px) {
+        .info {
+            font-family: sans-serif, Arial, Helvetica;
+            font-size: 16px;
+        }
+
+        p {
+            margin: 0; /* Remove default margin */
+            font-size: 25px; /* Adjust size as needed */
+            margin-right: 10px; /* Space between the asterisk and the color box */
+        }
+
+        @media (max-width: 640px) {
         *{
             margin: 0;
             font-family: sans-serif,Arial,  Helvetica;
             font-size: 16px;
             overflow: auto; /* Allows scrolling if content overflows */
+            
         }
         
             /* Hide the last two <th> elements in the <tr> */
@@ -159,10 +184,6 @@
         }
 
 
-        .navbar:hover{
-            height: 30px;
-        }
-        
         }
     </style>
 </head>
@@ -222,7 +243,11 @@
         </tbody>
     </table>
     
-
+    <div id="info">
+        <p>*</p>
+        <div class="color-box" style="background-color: rgb(0, 32, 96);"></div>
+        <div class="info"> is considered as <strong>ashubh</strong> (inauspicious).</div>
+    </div>
     <script>
 // Function to fetch coordinates based on the city name
 // Function to fetch coordinates and time zone based on the city
