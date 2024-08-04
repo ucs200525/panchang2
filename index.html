@@ -311,9 +311,9 @@ async function fetchSunTimes(lat, lng, date, timeZone) {
     }
 }
 
-// Example usage
+
 async function getSunTimesForCity(city, date) {
-    const coords = await fetchCoordinates(city);
+    let coords = await fetchCoordinates(city);
     if (coords) {
         const sunTimes = await fetchSunTimes(coords.lat, coords.lng, date, coords.timeZone);
         console.log(sunTimes);
@@ -341,13 +341,29 @@ async function getSunTimesForCity(city, date) {
 
     // Show loading message
     document.getElementById('loadingMessage').style.display = 'block';
+// Function to get the current date in a specific timezone
+    function getCurrentDateInTimeZone(timeZone) {
+        const options = {
+            timeZone: timeZone,
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        };
+        const formatter = new Intl.DateTimeFormat([], options);
+        const [{ value: month },,{ value: day },,{ value: year }] = formatter.formatToParts(new Date());
+        return `${year}-${month}-${day}`;
+    }
 
+    let coords = await fetchCoordinates(city); // Fetch coordinates and time zone
+
+    // Get current date in India
+    const currentDate = getCurrentDateInTimeZone(coords.timeZone);
+    console.log("timezone:",coords.timeZone)
     // Use user-entered date if provided, otherwise use current date
-    const date = userEnteredDate || new Date().toISOString().split('T')[0];
-    
+    const date =  userEnteredDate || currentDate ;
+    console.log("Date taken:",date )
     try {
-        const coords = await fetchCoordinates(city); // Fetch coordinates and time zone
-
+        
         if (coords) {
             const { lat, lng, timeZone } = coords; // Destructure timeZone here
 
