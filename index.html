@@ -143,16 +143,21 @@
             display: none;
         }
 
-        .navbar{
-            height: 30px;
-            width: 100%;
-            background-color: black;
-            color: white;
-            display: flex;
-            align-items: center;
-            text-wrap: nowrap;
-            white-space: nowrap;
+        .navbar {
+            position: fixed; /* Keep navbar fixed at the top */
+            top: 0;
+            left: 0;
+            width: 100%; /* Full width of the viewport */
+            background-color: #333; /* Change this to your desired color */
+            color: white; /* Text color */
+            padding: 10px; /* Add padding if needed */
+            z-index: 1000; /* Ensure it stays on top of other content */
         }
+
+        .content {
+            padding-top: 65px; /* Adjust based on the height of your navbar */
+        }
+
 
         .navbar:hover{
             height: 30px;
@@ -169,6 +174,7 @@
         <a href="#">Contact</a>
     </div>
 
+    <div class="content">
     <!-- City Name and Date Input and Form -->
     <div  style="text-align: center; margin: 20px;">
         <label class=input-city for="cityName">Enter City Name:</label>
@@ -195,7 +201,7 @@
     <div id="loadingMessage" style="display: none; text-align: center; margin: 20px; font-size: 20px; color: #ff0000;">
         Loading, please wait...
     </div>
-
+</div>
 
     <!-- Table -->
     <table>
