@@ -350,7 +350,7 @@ async function getSunTimesForCity(city, date) {
             day: '2-digit'
         };
         const formatter = new Intl.DateTimeFormat([], options);
-        const [{ value: month },,{ value: day },,{ value: year }] = formatter.formatToParts(new Date());
+        const [{ value: day },,{ value: month },, {value: year }] = formatter.formatToParts(new Date());
         return `${year}-${month}-${day}`;
     }
 
