@@ -260,6 +260,8 @@ async function fetchCoordinates(city) {
         }
         const data = await response.json();
         if (data.results.length > 0) {
+            const {limit , remaining , reset } = data.rate;
+            console.log("limit , remaining , reset :",limit , remaining , reset);
             const { lat, lng } = data.results[0].geometry;
             const timeZone = data.results[0].annotations.timezone.name;
             return { lat, lng, timeZone }; // Return all required values
