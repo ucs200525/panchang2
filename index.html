@@ -257,11 +257,11 @@
     <!-- Pachangam Request Form -->
     <div class= input-time style="text-align: center; margin: 20px;">
         <label for="sunriseToday">Sunrise Today:</label>
-        <input id="sunriseToday" name="sunriseToday" value="05:45:00">
+        <input id="sunriseToday" name="sunriseToday" value="05:30:00">
         <label for="sunsetToday">Sunset Today:</label>
-        <input id="sunsetToday" name="sunsetToday" value="18:04:00">
+        <input id="sunsetToday" name="sunsetToday" value="07:00:00">
         <label for="sunriseTmrw">Sunrise Tomorrow:</label>
-        <input id="sunriseTmrw" name="sunriseTmrw" value="05:45:00">
+        <input id="sunriseTmrw" name="sunriseTmrw" value="05:31:10">
         <label for="weekday">Weekday:</label>
         <input type="text" id="weekday" name="weekday" value="Monday">
         <button onclick="handleButtonClick()">Update Table</button>
@@ -666,14 +666,14 @@ function findClosestDay(input) {
 }
 
 const rows = tableBody.getElementsByTagName('tr');
-let previousD = sunriseTodaySec;
+let previousD = sunsetTodaySec;
 
 for (let i = 0; i < rows.length; i++) {
     const cells = rows[i].getElementsByTagName('td');
-    if (cells.length > 0) {
+    if (cells.length > 5) {
         // Column D values
         if (i === 0) {
-            previousD = sunriseTodaySec; // Start value for D0
+            previousD = sunsetTodaySec; // Start value for D0
             cells[3].textContent = secondsToTime(previousD);
         } else {
             previousD += interval1;
