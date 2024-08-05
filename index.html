@@ -553,21 +553,40 @@ function secondsToTime(seconds) {
     const secs = seconds % 60;
     return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
-async  function takeScreenshot() {
-            const element = document.getElementById('tableToCapture');
-            html2canvas(element).then(canvas => {
-                // Create an image from the canvas
-                const img = canvas.toDataURL('image/png');
+async function takeScreenshot() {
+    const element = document.getElementById('tableToCapture');
+    try {
+        const canvas = await html2canvas(element);
+        const img = canvas.toDataURL('image/png');
 
-                // Create a link element and simulate a click to download the image
-                const link = document.createElement('a');
-                link.href = img;
-                link.download = 'Panchangam.png';
-                link.click();
+        if (navigator.canShare && navigator.canShare({ files: [new File([img], 'Panchangam.png', { type: 'image/png' })] })) {
+            // Convert the data URL to a Blob
+            const response = await fetch(img);
+            const blob = await response.blob();
+
+            // Create a File object from the Blob
+            const file = new File([blob], 'Panchangam.png', { type: 'image/png' });
+
+            // Use the Web Share API to share the file
+            navigator.share({
+                files: [file],
+                title: 'Panchangam Screenshot',
+                text: 'Here is the Panchangam screenshot you requested.',
             }).catch(error => {
-                console.error('Error taking screenshot:', error);
+                console.error('Error sharing:', error);
             });
+        } else {
+            // Fallback: download the image if sharing is not supported
+            const link = document.createElement('a');
+            link.href = img;
+            link.download = 'Panchangam.png';
+            link.click();
         }
+    } catch (error) {
+        console.error('Error taking screenshot:', error);
+    }
+}
+
 
 
 function updateTable() {
