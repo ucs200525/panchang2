@@ -553,11 +553,54 @@ function secondsToTime(seconds) {
     const secs = seconds % 60;
     return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
+
 async function takeScreenshot() {
     const element = document.getElementById('tableToCapture');
+    const cityName = document.getElementById('cityName').value; // Replace with your city name
+    console.log("cityName",cityName)
+    const currentDate = document.getElementById('dateInput').value; // Date in locale format
+    const currentTime = new Date().toLocaleTimeString(); // Time in locale format
+
     try {
+        // Capture the screenshot
         const canvas = await html2canvas(element);
-        const img = canvas.toDataURL('image/png');
+        const ctx = canvas.getContext('2d');
+
+        // Define text properties
+        const textHeight = 60; // Height for the text area at the bottom
+        const margin = 10; // Margin from the edges
+        const fontSize = 16;
+
+        // Create a new canvas with extra height for the text
+        const newCanvas = document.createElement('canvas');
+        newCanvas.width = canvas.width;
+        newCanvas.height = canvas.height + textHeight;
+        const newCtx = newCanvas.getContext('2d');
+
+        // Draw the original image onto the new canvas
+        newCtx.drawImage(canvas, 0, 0);
+
+        // Set text properties and background for readability
+        newCtx.fillStyle = 'rgba(255, 255, 255, 0.8)'; // Semi-transparent white background
+        newCtx.fillRect(0, canvas.height, canvas.width, textHeight); // Background rectangle
+
+        // Set bold text properties
+        newCtx.font = `bold ${fontSize}px Arial`;
+        newCtx.fillStyle = 'black';
+        newCtx.textAlign = 'left';
+
+        // Add titles and values to the bottom of the canvas
+        const titleHeight = fontSize * 1.5; // Adjust title height
+        const titles = [`City: ${cityName}`, `Date: ${currentDate}`, `Time: ${currentTime}`];
+        const xStart = margin;
+        const yStart = canvas.height + fontSize + margin;
+
+        titles.forEach((title, index) => {
+            newCtx.fillText(title, xStart + index * (newCanvas.width / titles.length), yStart);
+        });
+
+        // Convert new canvas to image
+        const img = newCanvas.toDataURL('image/png');
 
         if (navigator.canShare && navigator.canShare({ files: [new File([img], 'Panchangam.png', { type: 'image/png' })] })) {
             // Convert the data URL to a Blob
@@ -586,6 +629,8 @@ async function takeScreenshot() {
         console.error('Error taking screenshot:', error);
     }
 }
+
+
 
 
 
