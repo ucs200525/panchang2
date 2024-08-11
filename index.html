@@ -163,7 +163,7 @@
             margin: 0;
             font-family: sans-serif,Arial,  Helvetica;
             font-size: 16px;
-            overflow: auto; /* Allows scrolling if content overflows */
+            /* Allows scrolling if content overflows */
             
         }
         
@@ -631,9 +631,6 @@ async function takeScreenshot() {
 }
 
 
-
-
-
 function updateTable() {
     const sunriseToday = document.getElementById('sunriseToday').value;
     const sunsetToday = document.getElementById('sunsetToday').value;
@@ -767,6 +764,7 @@ for (let i = 0; i < rows.length; i++) {
         const dayRows = weekdayRows[closestDay] || [];
         if (dayRows.includes(i)) {  
             cells[2].style.backgroundColor = '#002060'; // Apply blue color
+            cells[2].style.color = '#FFFFFF'
             wkd.innerHTML = closestDay;
         }
         
