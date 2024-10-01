@@ -166,7 +166,9 @@
             /* Allows scrolling if content overflows */
             
         }
-        
+ /*       #toggleFormat{ // to remove 12 hr oprion from mobile 
+            display: none;
+        }*/
             /* Hide the last two <th> elements in the <tr> */
             thead th:nth-last-child(1),
             thead th:nth-last-child(2),
@@ -251,7 +253,8 @@
         <input class=input-city type="text" id="cityName" name="cityName" >
         <label class=input-date for="dateInput">Enter Date:</label>
         <input class=input-date type="date" id="dateInput" name="dateInput" >
-        <button onclick="handleButtonClick()">Get Pachangam</button>
+        <button onclick="handleButtonClick()">Get Panchangam</button>
+        <button onclick="handleButtonClick()" id="toggleFormat">12-hour</button>
     </div>
 
     <!-- Pachangam Request Form -->
@@ -546,18 +549,35 @@ function timeToSeconds(time) {
     return hours * 3600 + minutes * 60 + (seconds || 0);
 }
 
+// Example event listener to toggle format on button click
+document.getElementById('toggleFormat').addEventListener('click', function() {
+    const button = document.getElementById('toggleFormat');
+    button.textContent = button.textContent === '12-hour' ? '24-hour' : '12-hour';
+});
+
+
+
+// Function to convert seconds to time
 function secondsToTime(seconds) {
     seconds = Math.round(seconds % 86400);
     let hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    
-    const period = hrs >= 12 ? 'PM' : 'AM';
-    hrs = hrs % 12 || 12; // Convert 24-hour to 12-hour format and handle midnight (0 should be 12)
 
-    return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')} ${period}`;
+    // Get the current format from the button
+    const formatButton = document.getElementById('toggleFormat');
+    const is12HourFormat = formatButton.textContent === '12-hour';
+
+    if (is12HourFormat) {
+        // Convert to 12-hour format with AM/PM
+        const period = hrs >= 12 ? 'PM' : 'AM';
+        hrs = hrs % 12 || 12; // Handle 0 as 12 in 12-hour format
+        return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')} ${period}`;
+    } else {
+        // 24-hour format
+        return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
 }
-
 
 async function takeScreenshot() {
     const element = document.getElementById('tableToCapture');
