@@ -166,9 +166,7 @@
             /* Allows scrolling if content overflows */
             
         }
-   #toggleFormat{       /*to remove 12 hr oprion from mobile */
-            display: none;
-        }*
+
             /* Hide the last two <th> elements in the <tr> */
             thead th:nth-last-child(1),
             thead th:nth-last-child(2),
@@ -254,7 +252,7 @@
         <label class=input-date for="dateInput">Enter Date:</label>
         <input class=input-date type="date" id="dateInput" name="dateInput" >
         <button onclick="handleButtonClick()">Get Panchangam</button>
-        <button onclick="handleButtonClick()" id="toggleFormat">24-hour</button>
+        <button onclick="handleButtonClick()" id="toggleFormat">12-hour</button>
     </div>
 
     <!-- Pachangam Request Form -->
@@ -546,14 +544,22 @@ function getCurrentDateInTimeZone(timeZone) {
 
 // Helper functions for time conversion
 function timeToSeconds(time) {
-    const [hours, minutes, seconds] = time.split(':').map(Number);
+    let [hours, minutes, seconds] = time.replace(/(AM|PM)/, '').trim().split(':').map(Number); // Remove AM/PM and split by ':'
+    
+    if (time.includes('PM') && hours !== 12) {
+        hours += 12; // Add 12 hours for PM times, except when it's 12 PM
+    } else if (time.includes('AM') && hours === 12) {
+        hours = 0; // Convert 12 AM to 0 hours (midnight)
+    }
+
     return hours * 3600 + minutes * 60 + (seconds || 0);
 }
+
 
 // Example event listener to toggle format on button click
 document.getElementById('toggleFormat').addEventListener('click', function() {
     const button = document.getElementById('toggleFormat');
-    button.textContent = button.textContent === '24-hour' ?  '12-hour' :'24-hour' ;
+    button.textContent = button.textContent === '12-hour' ?  '24-hour' : '12-hour' ;
 });
 
 
@@ -767,9 +773,12 @@ for (let i = 0; i < rows.length; i++) {
             cells[3].textContent = secondsToTime(previousD);
         }
 
+
         // Update Column E with next Column D value
         if (i < rows.length ) {
             const nextD = timeToSeconds(cells[3].textContent);
+            console.log("nextD",nextD);
+            console.log("time direct : ",cells[3].textContent);
             cells[4].textContent = secondsToTime(nextD + interval2);
         }
         
