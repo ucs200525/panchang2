@@ -166,9 +166,9 @@
             /* Allows scrolling if content overflows */
             
         }
- /*       #toggleFormat{ // to remove 12 hr oprion from mobile 
+   #toggleFormat{       /*to remove 12 hr oprion from mobile */
             display: none;
-        }*/
+        }*
             /* Hide the last two <th> elements in the <tr> */
             thead th:nth-last-child(1),
             thead th:nth-last-child(2),
@@ -254,7 +254,7 @@
         <label class=input-date for="dateInput">Enter Date:</label>
         <input class=input-date type="date" id="dateInput" name="dateInput" >
         <button onclick="handleButtonClick()">Get Panchangam</button>
-        <button onclick="handleButtonClick()" id="toggleFormat">12-hour</button>
+        <button onclick="handleButtonClick()" id="toggleFormat">24-hour</button>
     </div>
 
     <!-- Pachangam Request Form -->
@@ -553,7 +553,7 @@ function timeToSeconds(time) {
 // Example event listener to toggle format on button click
 document.getElementById('toggleFormat').addEventListener('click', function() {
     const button = document.getElementById('toggleFormat');
-    button.textContent = button.textContent === '12-hour' ? '24-hour' : '12-hour';
+    button.textContent = button.textContent === '24-hour' ?  '12-hour' :'24-hour' ;
 });
 
 
